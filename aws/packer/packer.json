@@ -1,0 +1,39 @@
+{
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "source_ami": "ami-80861296",
+    "instance_type": "t2.medium",
+    "ssh_username": "ubuntu",
+    "ami_name": "sockshop-on-nomad {{timestamp}}",
+    "ami_description": "Sockshop with Nomad and Consul",
+    "ami_groups": ["all"]
+  }],
+  "provisioners":  [
+  {
+    "type": "shell",
+    "inline": [
+      "sudo mkdir /ops",
+      "sudo chmod 777 /ops"
+    ]
+  },
+  {
+    "type": "file",
+    "source": "../../shared",
+    "destination": "/ops"
+  },
+  {
+    "type": "shell",
+    "script": "../../shared/scripts/setup.sh"
+  },
+  {
+    "type": "shell",
+    "inline": [
+      "sudo curl -L https://git.io/weave > /home/ubuntu/weave",
+      "sudo chmod +x /home/ubuntu/weave",
+      "sudo curl -L https://git.io/scope > /home/ubuntu/scope",
+      "sudo chmod +x /home/ubuntu/scope"
+    ]
+  }
+  ]
+}

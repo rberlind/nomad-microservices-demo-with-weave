@@ -1,0 +1,7 @@
+Key                Value
+---                -----
+token              5a6dd64c-4c3f-6141-3751-ae68f82e45cd
+token_accessor     d2c6a742-593f-4351-b3e8-917c81664350
+token_duration     72h
+token_renewable    true
+token_policies     [default nomad-server]
