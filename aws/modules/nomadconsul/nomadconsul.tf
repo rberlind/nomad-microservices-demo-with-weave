@@ -11,15 +11,12 @@ variable "owner_tag_value" {}
 variable "ttl_tag_value" {}
 variable "token_for_nomad" {}
 variable "vault_url" {}
-
-
-data "aws_vpc" "default" {
-  default = true
-}
+variable "vpc_id" {}
+variable "subnet_id" {}
 
 resource "aws_security_group" "primary" {
   name   = "nomad-consul-demo"
-  vpc_id = "${data.aws_vpc.default.id}"
+  vpc_id = "${var.vpc_id}"
 
   # SSH
   ingress {
@@ -154,6 +151,7 @@ resource "aws_instance" "primary" {
   instance_type          = "${var.server_instance_type}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.primary.id}"]
+  subnet_id              = "${var.subnet_id}"
   count                  = "${var.server_count}"
 
   #Instance tags
@@ -174,6 +172,7 @@ resource "aws_instance" "client" {
   instance_type          = "${var.client_instance_type}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.primary.id}"]
+  subnet_id              = "${var.subnet_id}"
   count                  = "${var.client_count}"
   depends_on             = ["aws_instance.primary"]
 

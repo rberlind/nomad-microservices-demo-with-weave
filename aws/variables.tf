@@ -3,7 +3,17 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "ami" {}
+variable "ami" {
+  description = "AMI ID"
+}
+
+variable "vpc_id" {
+  description = "VPC ID"
+}
+
+variable "subnet_id" {
+  description = "Subnet ID"
+}
 
 variable "server_instance_type" {
   description = "The AWS instance type to use for servers."

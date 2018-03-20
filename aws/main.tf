@@ -22,6 +22,8 @@ module "nomadconsul" {
 
   region            = "${var.region}"
   ami               = "${var.ami}"
+  vpc_id            = "${var.vpc_id}"
+  subnet_id         = "${var.subnet_id}"
   server_instance_type     = "${var.server_instance_type}"
   client_instance_type     = "${var.client_instance_type}"
   key_name          = "${var.key_name}"

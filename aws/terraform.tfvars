@@ -1,5 +1,7 @@
 region            = "us-east-1"
-ami               = "ami-36f43e4b"
+ami               = "ami-732de70e"
+vpc_id            = ""
+subnet_id         = ""
 server_instance_type = "t2.medium"
 client_instance_type = "t2.medium"
 key_name          = ""
