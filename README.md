@@ -5,7 +5,7 @@ You can learn more about the demo at the [Sock Shop](https://microservices-demo.
 
 The instructions below describe how you can deploy the Sock Shop microservices to AWS using [Nomad](https://www.nomadproject.io/) and [Consul](https://www.consul.io). Additionally, [Packer](https://www.packer.io) is used to build the AWS AMI, [Terraform](https://www.terraform.io) is used to provision the AWS infrastructure, and [Vault](https://www.vaultproject.io) is used to dynamically generate  AWS credentials to Terraform and a root password for one of the Sock Shop databases.
 
-In our case, most of the Sock Shop microservices will be launched in Docker containers, using Nomad's Docker Driver, but one will be launched with Nomad's exec driver that can launch arbitrary commands.  Consul will be used for service discovery.
+All of the Sock Shop microservices will be launched in Docker containers, using Nomad's Docker Driver.
 
 You'll want to clone this repository to your local machine with the command `git clone https://github.com/rberlind/nomad-consul-demo.git`
 
