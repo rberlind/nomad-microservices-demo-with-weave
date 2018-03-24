@@ -7,7 +7,7 @@ The instructions below describe how you can deploy the Sock Shop microservices t
 
 All of the Sock Shop microservices will be launched in Docker containers, using Nomad's Docker Driver.
 
-You'll want to clone this repository to your local machine with the command `git clone https://github.com/rberlind/nomad-consul-demo.git`
+You'll want to clone this repository to your local machine with the command `git clone https://github.com/rberlind/nomad-microservices-demo-with-weave.git` 
 
 ## Prerequisites
 In order to deploy the Sock Shop demo to AWS, you will need an AWS account. You will also need to know your AWS access and secret access [keys](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys). You'll also need a [key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2-key-pairs.html) from your AWS account. Of course, you'll also want to clone or download this repository to your laptop. In a terminal session, you would use `git clone https://github.com/rberlind/hashicorp-demo.git`.
