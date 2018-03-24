@@ -13,7 +13,7 @@ job "sockshop" {
 
   # - frontend #
   group "frontend" {
-    count = 1
+    count = 2
 
     restart {
       attempts = 10
@@ -42,7 +42,6 @@ job "sockshop" {
       service {
         name = "front-end"
         tags = ["frontend", "front-end"]
-        port = "http"
       }
 
       resources {
@@ -91,7 +90,6 @@ job "sockshop" {
       service {
         name = "user"
         tags = ["user"]
-        port = "http"
       }
 
       resources {
@@ -119,7 +117,6 @@ job "sockshop" {
       service {
         name = "user-db"
         tags = ["db", "user", "user-db"]
-	      port = "http"
       }
 
       resources {
@@ -162,7 +159,6 @@ job "sockshop" {
       service {
         name = "catalogue"
         tags = ["catalogue"]
-        port = "http"
       }
 
       resources {
@@ -207,7 +203,6 @@ job "sockshop" {
       service {
         name = "catalogue-db"
         tags = ["db", "catalogue", "catalogue-db"]
-        port = "http"
       }
 
       resources {
@@ -255,7 +250,6 @@ job "sockshop" {
       service {
         name = "carts"
         tags = ["carts"]
-        port = "http"
       }
 
       resources {
@@ -286,7 +280,6 @@ job "sockshop" {
       service {
         name = "carts-db"
         tags = ["db", "carts", "carts-db"]
-	      port = "http"
       }
 
       resources {
@@ -333,7 +326,6 @@ job "sockshop" {
       service {
         name = "shipping"
         tags = ["shipping"]
-        port = "http"
       }
 
       resources {
@@ -376,7 +368,6 @@ job "sockshop" {
       service {
         name = "payment"
         tags = ["payment"]
-        port = "http"
       }
 
       resources {
@@ -425,7 +416,6 @@ job "sockshop" {
       service {
         name = "orders"
         tags = ["orders"]
-        port = "http"
       }
 
       resources {
@@ -456,7 +446,6 @@ job "sockshop" {
       service {
         name = "orders-db"
         tags = ["db", "orders", "orders-db"]
-	      port = "http"
       }
 
       resources {
@@ -503,7 +492,6 @@ job "sockshop" {
       service {
         name = "queue-master"
         tags = ["queue-master"]
-        port = "http"
       }
 
       resources {
@@ -546,7 +534,6 @@ job "sockshop" {
       service {
         name = "rabbitmq"
         tags = ["db"]
-	port = "http"
       }
 
       resources {

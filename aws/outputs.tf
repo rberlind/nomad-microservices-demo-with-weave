@@ -7,7 +7,7 @@ Server public IPs: ${join(", ", module.nomadconsul.primary_server_public_ips)}
 Server private IPs: ${join(", ", module.nomadconsul.primary_server_private_ips)}
 
 To connect, add your private key and SSH into any client or server with
-`ssh ubuntu@PUBLIC_IP`. You can test the integrity of the cluster by running:
+`ssh -i "${var.key_name}.pem" ubuntu@${element(module.nomadconsul.primary_server_public_ips, 0)}`. You can test the integrity of the cluster by running:
 
   $ consul members
   $ nomad server-members
@@ -22,7 +22,9 @@ executing:
 
 Simply wait a few seconds and rerun the command if this occurs.
 
-The Consul UI can be accessed at http://PUBLIC_IP:8500/ui.
+The Consul UI can be accessed at http://${element(module.nomadconsul.primary_server_public_ips, 0)}:8500/ui.
+
+The Nomad UI can be accessed at http://${element(module.nomadconsul.primary_server_public_ips, 0)}:4646/ui.
 
 CONFIGURATION
 }

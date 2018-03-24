@@ -12,7 +12,7 @@ You'll want to clone this repository to your local machine with the command `git
 ## Prerequisites
 In order to deploy the Sock Shop demo to AWS, you will need an AWS account. You will also need to know your AWS access and secret access [keys](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys). You'll also need a [key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2-key-pairs.html) from your AWS account. Of course, you'll also want to clone or download this repository to your laptop. In a terminal session, you would use `git clone https://github.com/rberlind/hashicorp-demo.git`.
 
-You will need to download and install Packer and Terraform locally from [Packer Downloads](https://www.packer.io/downloads.html) and [Terraform Downloads](https://www.terraform.io/downloads.html) respectively. This demo was built and tested with Packer 1.2.1 and Terraform 0.11.4.
+You will need to download and install Packer and Terraform locally from [Packer Downloads](https://www.packer.io/downloads.html) and [Terraform Downloads](https://www.terraform.io/downloads.html) respectively. This demo was built and tested with Packer 1.2.1 and Terraform 0.11.5.
 
 You will also need a Vault server that is accessible from your AWS account.  Ideally, you would run it in your AWS account. You can download Vault from [Vault Downloads](https://www.vaultproject.io/downloads.html). This demo was built and tested with Vault 0.9.5.
 
@@ -44,7 +44,7 @@ vault write aws-tf/config/lease lease=1h lease_max=24h
 vault write aws-tf/roles/deploy policy=@aws-policy.json
 ```
 
-If you want, test that you can dynamically generate AWS credentials by running `vault read aws/creds/deploy`.  This will return an access key and secret key usable for 1 hour.
+If you want, test that you can dynamically generate AWS credentials by running `vault read aws-tf/creds/deploy`.  This will return an access key and secret key usable for 1 hour.
 
 ### Configure SSH Secrets Engine on your Vault server
 We're actually using the Vault SSH Secret Backend to generate the root user's password for the catalogue-db database and passing that into the catalogue-db Docker container via an environment variable. Here are the steps that the script does to set this up:
@@ -66,7 +66,7 @@ vault write auth/token/roles/nomad-cluster @nomad-cluster-role.json
 ## Provisioning AWS EC2 instances with Packer and Terraform
 You can now use Packer and Terraform to provision your AWS EC2 instances. Terraform has already been configured to retrieve AWS credentials from your Vault server which has been configured to dynamically generate short-lived AWS keys for Terraform.
 
-I've already used Packer to create two public Amazon Machine Images (AMIs), ami-36f43e4b which uses Nomad 0.6.3 and ami-732de70e which uses Nomad 0.7.1, which you can use as the basis for your EC2 instances. These AMIs only exist in the AWS us-east-1 region. If you want to create a similar AMI in a different region or if you make any changes to any of the files in the shared directory, you will need to create your own AMI with Packer. This is very simple. Starting from the home directory, do the following (being sure to specify the region in packer.json if different from us-east-1):
+I've already used Packer to create Amazon Machine Image ami-8ea371f3 which uses Nomad 0.7.1 and Consul 1.0.6. You can use this as the basis for your EC2 instances. This AMI only exists in the AWS us-east-1 region. If you want to create a similar AMI in a different region or if you make any changes to any of the files in the shared directory, you will need to create your own AMI with Packer. This is very simple. Starting from the home directory, do the following (being sure to specify the region in packer.json if different from us-east-1):
 ```
 cd aws/packer
 packer build packer.json
@@ -103,11 +103,9 @@ You can verify that the sockshop Docker network was created with `docker network
 You could also verify that Weave Net and Weave Scope are running with `ps -ef | grep weave` and `ps -ef | grep scope`.
 
 ## Launching the Sock Shop application with Nomad
-Launching the Sock Shop microservices with Nomad is very easy.  Just run:
-```
-nomad run sockshop.nomad
-```
-You can check the status of the sockshop job by running `nomad status sockshop`.  Please do this a few times until all of the task groups are running.
+The demo will automatically launch the Sock Shop microservices with Nomad using the command `nomad run sockshop.nomad`.  You do not need to run this yourself.
+
+You can check the status of the sockshop job on any of the servers or clients by running `nomad status sockshop`.  Please do this a few times until all of the task groups are running.
 
 ## Using the Sock Shop application
 You should now be able to access the Sock Shop UI with a browser on your laptop.  Just point your browser against http://<client_ip>, replacing \<client_ip\> with either of the client instance public IP addresses.
@@ -116,11 +114,17 @@ You can login to the Sock Shop as "Eve_Berger" with password "eve".  You can the
 
 ![Screenshot](SockShopApp.png)
 
-## Checking the Sock Shop Services with Weave Scope and the Consul UI
+## Checking the Sock Shop Services with Weave Scope
 You can use Weave Scope to see all the Docker containers that are running on your 2 client instances. Point your browser to http://<client_ip>:4040, replacing \<client_ip\> with either of the client instance public IP addresses. You can zoom in and out.  You can also make various selections such as only seeing application containers, only seeing running containers, viewing a graph indicating how the containers are communicating with each other, or viewing a table. You can select containers and even enter shells for them.
 
 ![Screenshot](WeaveScope.png)
 
-You can access the Consul UI by pointing your browser to http://<client_ip>:8500, replacing \<client_ip\> with either of the client instance public IP addresses. You can verify that all of the Sock Shop microservices are registered with Consul and easily determine which of the client instances the different services are running on.  Note that the current configuration runs 2 instances of front-end (the UI) and 1 instance of all the other Sock Shop microservices.
+## Checking the Services with Consul UI
+You can access the Consul UI by pointing your browser to http://<server_ip>:8500, replacing \<server_ip\> with your server's public IP address. You can verify that all of the Sock Shop microservices are registered with Consul and easily determine which of the client instances the different services are running on.  Note that the current configuration runs 2 instances of front-end (the UI) and 1 instance of all the other Sock Shop microservices.
 
 ![Screenshot](ConsulUI.png)
+
+## Checking the Running Tasks with Nomad UI
+You can access the Nomad UI by pointing your browser to http://<server_ip>:4646, replacing \<server_ip\> with your server's public IP address. You can verify that all of the Sock Shop microservices are running as Nomad tasks and easily determine which of the client instances the different tasks are running on.
+
+![Screenshot](NomadUI.png)
