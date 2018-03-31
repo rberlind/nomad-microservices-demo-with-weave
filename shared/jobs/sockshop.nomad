@@ -309,7 +309,7 @@ job "sockshop" {
       driver = "docker"
 
       env {
-	      spring_rabbitmq_host = "rabbitmq.apcera.local"
+	      spring_rabbitmq_host = "rabbitmq.service.consul"
       }
 
       config {
@@ -475,7 +475,7 @@ job "sockshop" {
       driver = "docker"
 
       env {
-        spring_rabbitmq_host = "rabbitmq.apcera.local"
+        spring_rabbitmq_host = "rabbitmq.service.consul"
       }
 
       config {

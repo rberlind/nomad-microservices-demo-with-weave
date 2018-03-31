@@ -1,7 +1,7 @@
 provider "vault" {}
 
 data "vault_generic_secret" "aws_auth" {
-  path = "aws/creds/deploy"
+  path = "aws-tf/creds/deploy"
 }
 
 data "external" "region" {
